@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Tabel Pengambilan - Packetin</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/server.js"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="home.html">Packetin</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a id="dashboard" class="nav-link" href="home.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                                Dashboard
+                            </a>
+                            <a id="tabel_datang" class="nav-link" href="tabel_datang.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                                Kedatangan Paket
+                            </a>
+                            <a id="tabel_ambil" class="nav-link" href="tabel_ambil.html">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-dolly"></i></div>
+                                Pengambilan Paket
+                            </a>
+                            <a id="laporan" class="nav-link" href="laporan.html">
+                                <div class="sb-nav-link-icon">
+                                <i class="fa-regular fa-clipboard"></i>
+                                </div>
+                                Laporan Paket
+                            </a>
+                            <a id="tabel_users" class="nav-link" href="tabel_users.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                                Tabel Pengguna
+                            </a>
+                            <a class="nav-link collapsed" href="#" onclick="showLogoutModal()">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Login Sebagai:</div>
+                        <div id="usernameDisplay"></div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4 mb-4">Tabel Pengambilan Paket</h1>
+                        <ol class="breadcrumb mb-4">
+                            <div class="row w-100 mt-2">
+                                <div class="col-md-2 col-sm-6 mb-2">
+                                    <b><label class="mb-1" for="mulai">Tanggal Mulai:</label></b>
+                                    <input id="tanggal_awal" class="form-control" type="date" aria-label="Start Date">
+                                </div>
+                                <div class="col-md-2 col-sm-6 mb-2">
+                                    <b><label class="mb-1" for="akhir">Tanggal Akhir:</label></b>
+                                    <input id="tanggal_akhir" class="form-control" type="date" aria-label="End Date">
+                                </div>
+                                <div class="col-md-2 col-sm-6 mb-2 d-flex align-items-end">
+                                    <button class="btn btn-outline-secondary" type="submit" onclick="searchTable(event)">Cari Tanggal</button>
+                                </div>
+                            </div>
+                                <div class="col-md-3 col-sm-6 mb-2 mt-4 d-flex align-items-end search-container">
+                                    <input id="search-input" class="form-control me-2" type="search" placeholder="Cari" aria-label="Search">
+                                    <button class="btn btn-outline-secondary" type="submit" onclick="searchTable2(event)">Cari</button>
+                                </div>
+                                <style>
+                                    .search-container {
+                                        margin-left: auto;
+                                        margin-right: auto;
+                                    }
+                                
+                                    @media (min-width: 768px) { /* Tablet and larger screens */
+                                        .search-container {
+                                            margin-left: 75%; /* Adjust as needed */
+                                        }
+                                    }
+                                
+                                    @media (max-width: 767px) { /* Mobile screens */
+                                        .search-container {
+                                            margin-left: 0;
+                                            margin-right: 0;
+                                        }
+                                    }
+                                </style>                                
+                                <table id="pengambilan_paket-table" class="table table-striped table-bordered">
+                                    <thead class="thead-dark">  
+                                        <tr class="text-center" data-pengambil="1">
+                                            <th>Tanggal Kedatangan Paket</th>
+                                            <th>Nama Barang</th>
+                                            <th>Nama Pengirim</th>
+                                            <th>Nama Penerima</th>
+                                            <th>Nama Pengambil</th>
+                                            <th>Tanggal Pengambilan Paket</th>
+                                            <th>Jam Pengambilan Paket</th>
+                                            <th>Status Paket</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabel-body">
+                                        <!-- Data will be inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- modal logout -->
+                    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="logoutModalLabel">Notifikasi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            Apakah Anda yakin ingin Logout?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" id="closeInput" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!-- search tanggal -->
+        <script>
+            function searchTable(event) {
+                event.preventDefault();
+        
+                // Get the date range values
+                const tanggalAwal = document.getElementById('tanggal_awal').value;
+                const tanggalAkhir = document.getElementById('tanggal_akhir').value;
+        
+                // Check if both date fields are filled
+                if (!tanggalAwal || !tanggalAkhir) {
+                    alert('Harap masukkan tanggal awal dan akhir.');
+                    return;
+                }
+        
+                // Get the table and rows
+                const table = document.getElementById('pengambilan_paket-table');
+                const tbody = table.querySelector('tbody'); // Assuming the table has a tbody
+                const rows = tbody.getElementsByTagName('tr');
+                let dataFound = false;
+        
+                // Loop through the table rows and filter based on the date range
+                for (let i = 0; i < rows.length; i++) {
+                    const tanggalKedatangan = rows[i].getElementsByTagName('td')[0].innerText; // Assuming date is in the first column
+                    const formattedDate = moment(tanggalKedatangan, 'MM-DD-YYYY HH:mm').format('YYYY-MM-DD');
+        
+                    // Check if the row's date is within the selected date range
+                    if (formattedDate >= tanggalAwal && formattedDate <= tanggalAkhir) {
+                        rows[i].style.display = '';
+                        dataFound = true;
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+        
+                // Check if no data was found and add a "No data" row
+                if (!dataFound) {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 10; // Jumlah kolom pada tabel
+                    td.textContent = 'Tidak ada laporan paket';
+                    td.className = 'text-center';
+                    tr.appendChild(td);
+                    tbody.appendChild(tr);
+                }
+            }
+        </script>        
+        <!-- search -->
+        <script>
+            function searchTable2(event) {
+            event.preventDefault();
+            
+            // Get the search input value
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            
+            // Get the table and rows
+            const table = document.getElementById('pengambilan_paket-table');
+            const rows = table.getElementsByTagName('tr');
+            
+            // Loop through the table rows and hide those that don't match the search query
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let rowContainsSearchTerm = false;
+                
+                // Check each cell in the row
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().includes(searchInput)) {
+                        rowContainsSearchTerm = true;
+                        break;
+                    }
+                }
+                
+                // Show or hide the row based on the search term
+                if (rowContainsSearchTerm) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                fetch(`${url}/session-data`,{
+                credentials:"include",
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    if (!data.username) {
+                    window.location.href = "index.html";
+                    console.log(data)
+                    }else{
+                        // hide menu untuk satpam
+                        const username = data.username;
+                        fetch(
+                            `${url}/get_level?username=${username}`
+                        )
+                            .then((response) => response.json())
+                            .then((levelData) => {
+                            console.log("Level data received:", levelData);
+                            const level = levelData.level;
+
+                            if (level === "Satpam") {
+                                // Sembunyikan semua menu
+                                console.log("Hiding elements for Satpam");
+                                    const tabel_users = document.getElementById("tabel_users");
+                                    {
+                                        tabel_users.style.display = "none";
+                                    }
+                                }
+                            });
+                        // Tampilkan nama pengguna di elemen dengan id 'usernameDisplay'
+                    document.getElementById('usernameDisplay').innerText = data.username;
+                        fetch(`${url}/penerima_pakets`)
+                        .then(response => response.json())  // Parse the JSON data from the response
+                        .then(data => {
+                            const tbody = document.getElementById('pengambilan_paket-table').querySelector('tbody');
+                            data.data.forEach(user => {
+                                const tr = document.createElement('tr');
+            
+                                const tanggal_kedatanganTd = document.createElement('td');
+                                tanggal_kedatanganTd.textContent = moment(user.tanggal_kedatangan).format('MM-DD-YYYY') + " Jam: " + moment(user.tanggal_kedatangan).format('HH:mm'); 
+                                tr.appendChild(tanggal_kedatanganTd);
+
+                                const nama_barangTd = document.createElement('td');
+                                nama_barangTd.textContent = user.nama_barang;  
+                                tr.appendChild(nama_barangTd);
+
+                                const nama_pengirimTd = document.createElement('td');
+                                nama_pengirimTd.textContent = user.nama_pengirim;  
+                                tr.appendChild(nama_pengirimTd);
+
+                                const nama_penerimaTd = document.createElement('td');
+                                nama_penerimaTd.textContent = user.nama_penerima;  
+                                tr.appendChild(nama_penerimaTd);
+
+                                const nama_pengambilTd = document.createElement('td');
+                                nama_pengambilTd.textContent = user.nama_pengambil; 
+                                tr.appendChild(nama_pengambilTd);
+
+                                const tanggal_diambilTd = document.createElement('td');
+                                // Jika status adalah "belum diterima", tanggal_pengambilan kosong
+                                tanggal_diambilTd.textContent = user.status === 'Belum Diterima' ? '' : moment(user.tanggal_diambil).format('MM-DD-YYYY'); 
+                                tr.appendChild(tanggal_diambilTd);
+
+                                const jam_diambilTd = document.createElement('td');
+                                jam_diambilTd.textContent = user.status === 'Belum Diterima' ? '': moment(user.tanggal_diambil).format('HH:mm'); 
+                                tr.appendChild(jam_diambilTd);
+
+                                const statusTd = document.createElement('td');
+                                statusTd.textContent = user.status; 
+
+                                const aksiTd = document.createElement('td');
+                                
+                                const editButton = document.createElement('button');
+                                if (user.nama_pengambil == "") {
+                                    editButton.className = 'btn btn-warning';
+                                    editButton.textContent = 'Konfirmasi Status';
+                                } else {
+                                        if (user.status == "Sudah Diterima") {
+                                            editButton.className = 'btn btn-success';
+                                            editButton.textContent = 'Paket Diterima';
+                                        } else {
+                                            editButton.className = 'btn btn-warning';
+                                            editButton.textContent = 'Konfirmasi Status';
+                                        }
+                                    }
+                                editButton.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    const userId = `${user.id_paket}`;
+                                    
+                                    // const url = `${url}/penerima_paket_edit/${user.id_paket}`;
+                                    fetch(`${url}/penerima_paket_edit/${user.id_paket}`, {
+                                    method: 'GET', 
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                    if (data.code === 200) {
+                                    // Pass user data as query parameters to the edit page
+                                    const queryParams = new URLSearchParams({
+                                        // nama_ekspedisi: user.nama_ekspedisi,
+                                        nama_barang: user.nama_barang,
+                                        nama_pengirim: user.nama_pengirim,
+                                        alamat_pengirim: user.alamat_pengirim,
+                                        nama_penerima: user.nama_penerima,
+                                        nama_pengambil: user.nama_pengambil,
+                                        status: user.status,
+                                        no_telp: user.no_telp,
+                                        tanggal_diambil:user.tanggal_diambil,
+                                        id_paket: user.id_paket,
+                                    });
+                                    window.location.href = `edit_paket_ambil.html?${queryParams.toString()}`;
+                                    } else {
+                                        throw new Error(`Failed to edit Pengambilan Paket ${user.nama_pengambil}`);
+                                    }
+                                })
+                                .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to edit Pengambilan Paket');
+                                });
+                            });
+                                // Append buttons to aksiTd
+                                aksiTd.appendChild(editButton);
+                                tr.appendChild(aksiTd);
+
+                                tbody.appendChild(tr);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+                        }
+                    })
+                })
+        </script>
+        <!-- logout -->
+        <script>
+            function showLogoutModal() {
+                var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+                logoutModal.show();
+            }
+            function logout() {
+                event.preventDefault();
+                fetch(`${url}/logout`,{
+                credentials:"include",
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    if (data.code == "200") {
+                        window.location.href = "index.html";
+                    }else{
+                    console.log("Gagal Logout");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+            }
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                    logout();
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
+</html>

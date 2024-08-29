@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Tabel Kedatangan - Packetin</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+        />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/server.js"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="home.html">Packetin</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            
+            <div class="flex-grow-1"></div>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a id="dashboard" class="nav-link" href="home.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                                Dashboard
+                            </a>
+                            <a id="tabel_datang" class="nav-link" href="tabel_datang.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                                Kedatangan Paket
+                            </a>
+                            <a id="tabel_ambil" class="nav-link" href="tabel_ambil.html">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-dolly"></i></div>
+                                Pengambilan Paket
+                            </a>
+                            <a id="laporan" class="nav-link" href="laporan.html">
+                                <div class="sb-nav-link-icon">
+                                <i class="fa-regular fa-clipboard"></i>
+                                </div>
+                                Laporan Paket
+                            </a>
+                            <a id="tabel_users" class="nav-link" href="tabel_users.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                                Tabel Pengguna
+                            </a>
+                            <a class="nav-link collapsed" href="#" onclick="showLogoutModalt()">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Login Sebagai:</div>
+                        <div id="usernameDisplay"></div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Tabel Kedatangan Paket</h1>
+                        <form style="position: relative">
+                            <a style=" left: 90%; margin-bottom: 10px;" class="btn btn-info mt-2" href="input_datang.html">Tambah Data</a>
+                        </form>
+                        <ol class="breadcrumb mb-4">
+                            <div class="row w-100 mt-3">
+                                <div class="col-md-2 col-sm-6 mb-2">
+                                    <b><label class="mb-1" for="mulai">Tanggal Mulai:</label></b>
+                                    <input id="tanggal_awal" class="form-control" type="date" aria-label="Start Date">
+                                </div>
+                                <div class="col-md-2 col-sm-6 mb-2">
+                                    <b><label class="mb-1" for="akhir">Tanggal Akhir:</label></b>
+                                    <input id="tanggal_akhir" class="form-control" type="date" aria-label="End Date">
+                                </div>
+                                <div class="col-md-2 col-sm-6 mb-2 d-flex align-items-end">
+                                    <button class="btn btn-outline-secondary" type="submit" onclick="searchTable(event)">Cari Tanggal</button>
+                                </div>
+                            </div>
+                                <div class="col-md-3 col-sm-6 mb-2 mt-4 d-flex align-items-end search-container">
+                                    <input id="search-input" class="form-control me-2" type="search" placeholder="Cari" aria-label="Search">
+                                    <button class="btn btn-outline-secondary" type="submit" onclick="searchTable2(event)">Cari</button>
+                                </div>
+                                <style>
+                                    .search-container {
+                                        margin-left: auto;
+                                        margin-right: auto;
+                                    }
+                                
+                                    @media (min-width: 768px) { /* Tablet and larger screens */
+                                        .search-container {
+                                            margin-left: 75%; /* Adjust as needed */
+                                        }
+                                    }
+                                
+                                    @media (max-width: 767px) { /* Mobile screens */
+                                        .search-container {
+                                            margin-left: 0;
+                                            margin-right: 0;
+                                        }
+                                    }
+                                </style>
+                                <table id="penerima_paket-table" class="table table-striped table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr class="text-center">
+                                            <th>Tanggal Kedatangan Paket</th>
+                                            <th>Jam Kedatangan Paket</th>
+                                            <th>Nama Ekspedisi</th>
+                                            <th>Nama Barang</th>
+                                            <th>Nama Pengirim</th>
+                                            <th>Alamat Pengirim</th>
+                                            <th>Nama Penerima</th>
+                                            <th>No. Telp</th>
+                                            <th style="width: 160px;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody_datang">
+                                        <!-- Data will be inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!-- Confirmation Modal -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModal">Peringatan!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus Data ini?</p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelDeleteButton">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Notification Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <p id="modalMessage"></p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="modalCloseButton" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+            </div>
+
+            <!-- modal logout -->
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Notifikasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    Apakah Anda yakin ingin Logout?
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" id="closeInput" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- Search by date -->
+            <script>
+                function searchTable(event) {
+                    event.preventDefault();
+            
+                    // Get the date range values
+                    const tanggalAwal = document.getElementById('tanggal_awal').value;
+                    const tanggalAkhir = document.getElementById('tanggal_akhir').value;
+            
+                    // Check if both date fields are filled
+                    if (!tanggalAwal || !tanggalAkhir) {
+                        alert('Harap masukkan tanggal awal dan akhir.');
+                        return;
+                    }
+            
+                    // Parse the input dates to moment objects
+                    const tanggalAwalMoment = moment(tanggalAwal, 'YYYY-MM-DD');
+                    const tanggalAkhirMoment = moment(tanggalAkhir, 'YYYY-MM-DD').endOf('day'); // To include the entire end date
+            
+                    // Get the table and rows
+                    const table = document.getElementById('penerima_paket-table');
+                    const rows = table.getElementsByTagName('tr');
+                    const tbody = table.getElementsByTagName('tbody')[0];
+                    let dataFound = false;
+            
+                    // Loop through the table rows and filter based on the date range
+                    for (let i = 1; i < rows.length; i++) {
+                        const tanggalKedatangan = rows[i].getElementsByTagName('td')[0].textContent; // Date is in the first column
+                        const jamKedatangan = rows[i].getElementsByTagName('td')[1].textContent; // Time is in the second column
+            
+                        // Combine date and time for comparison
+                        const tanggalKedatanganMoment = moment(`${tanggalKedatangan} ${jamKedatangan}`, 'DD-MM-YYYY HH:mm');
+            
+                        // Check if the row's date is within the selected date range
+                        if (tanggalKedatanganMoment.isBetween(tanggalAwalMoment, tanggalAkhirMoment, null, '[]')) {
+                            rows[i].style.display = '';
+                            dataFound = true;
+                        } else {
+                            rows[i].style.display = 'none';
+                        }
+                    }
+            
+                    // Clear existing "no data" message if any
+                    const noDataRow = tbody.querySelector('tr.no-data');
+                    if (noDataRow) {
+                        tbody.removeChild(noDataRow);
+                    }
+            
+                    // Add "no data" message if no data found
+                    if (!dataFound) {
+                        const tr = document.createElement('tr');
+                        tr.className = 'no-data';
+                        const td = document.createElement('td');
+                        td.colSpan = 10; // Jumlah kolom pada tabel
+                        td.textContent = 'Tidak ditemukan data kedatangan paket';
+                        td.className = 'text-center';
+                        tr.appendChild(td);
+                        tbody.appendChild(tr);
+                    }
+                }
+            </script>                  
+            <!-- search -->
+            <script>
+                function searchTable2(event) {
+                event.preventDefault();
+                
+                // Get the search input value
+                const searchInput = document.getElementById('search-input').value.toLowerCase();
+                
+                // Get the table and rows
+                const table = document.getElementById('penerima_paket-table');
+                const rows = table.getElementsByTagName('tr');
+                
+                // Loop through the table rows and hide those that don't match the search query
+                    for (let i = 1; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    let rowContainsSearchTerm = false;
+                    
+                    // Check each cell in the row
+                    for (let j = 0; j < cells.length; j++) {
+                        if (cells[j].innerText.toLowerCase().includes(searchInput)) {
+                            rowContainsSearchTerm = true;
+                            break;
+                        }
+                    }
+                    
+                    // Show or hide the row based on the search term
+                    if (rowContainsSearchTerm) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+            </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function(){
+                fetch(`${url}/session-data`,{
+                credentials:"include",
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    if (!data.username) {
+                    window.location.href = "index.html";
+                    }else{
+                        // Hide menu untuk satpam
+                        fetch(`${url}/get_level?username=${data.username}`)
+                        .then((response) => response.json())
+                        .then((levelData) => {
+                            console.log("Level data received:", levelData);
+                            const level = levelData.level;
+
+                            if (level === "Satpam") {
+                                console.log("Hiding elements for Satpam");
+                                const tabel_users = document.getElementById("tabel_users");
+                                {
+                                    tabel_users.style.display = "none";
+                                }
+                            } 
+                        });
+                        // Tampilkan nama pengguna di elemen dengan id 'usernameDisplay'
+                        document.getElementById('usernameDisplay').innerText = data.username;
+                        fetch(`${url}/penerima_paket`)
+                        .then(response => response.json())  // Parse the JSON data from the response
+                        .then(data => {
+                            const tbody = document.getElementById('penerima_paket-table').querySelector('tbody');
+                            data.data.forEach(user => {
+                                const tr = document.createElement('tr');
+            
+                                const tanggal_kedatanganTd = document.createElement('td');
+                                tanggal_kedatanganTd.textContent = moment(user.tanggal_kedatangan).format('DD-MM-YYYY');
+                                tr.appendChild(tanggal_kedatanganTd);
+
+                                const jam_kedatanganTd = document.createElement('td');
+                                jam_kedatanganTd.textContent = moment(user.tanggal_kedatangan).format('HH:mm');
+                                tr.appendChild(jam_kedatanganTd);
+            
+                                const nama_ekspedisiTd = document.createElement('td');
+                                nama_ekspedisiTd.textContent = user.nama_ekspedisi; 
+                                tr.appendChild(nama_ekspedisiTd);
+
+                                const nama_barangTd = document.createElement('td');
+                                nama_barangTd.textContent = user.nama_barang; 
+                                tr.appendChild(nama_barangTd);
+                                
+                                const nama_pengirimTd = document.createElement('td');
+                                nama_pengirimTd.textContent = user.nama_pengirim; 
+                                tr.appendChild(nama_pengirimTd);
+
+                                const alamat_pengirimTd = document.createElement('td');
+                                alamat_pengirimTd.textContent = user.alamat_pengirim; 
+                                tr.appendChild(alamat_pengirimTd);
+
+                                const nama_penerimaTd = document.createElement('td');
+                                nama_penerimaTd.textContent = user.nama_penerima;
+                                tr.appendChild(nama_penerimaTd);
+
+                                const no_telpTd = document.createElement('td');
+                                no_telpTd.textContent = user.no_telp; 
+                                tr.appendChild(no_telpTd);
+            
+                                const aksiTd = document.createElement('td');
+
+                                // Create Edit button
+                                const editButton = document.createElement('button');
+                                editButton.className = 'btn btn-secondary';
+                                editButton.textContent = 'Edit';
+                                editButton.addEventListener('click', () => {
+                                    event.preventDefault();
+                                    const userId = `${user.id_paket}`; 
+                                    // const url = `http://localhost:${porturl}/penerima_paket_edit/${user.id_paket}`;
+                                    fetch(`${url}/penerima_paket_edit/${user.id_paket}`, {
+                                    method: 'GET', 
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                    if (data.code === 200) {
+                                    // alert(`User Penerima Paket successfully: ${user.nama_penerima}`);
+                                    // window.location.href = "edit_paket_datang.html";
+
+                                    const queryParams = new URLSearchParams({
+                                        tanggal_kedatangan: user.tanggal_kedatangan,
+                                        jam_kedatangan: user.jam_kedatangan,
+                                        nama_ekspedisi: user.nama_ekspedisi,
+                                        nama_barang: user.nama_barang,
+                                        nama_pengirim: user.nama_pengirim,
+                                        alamat_pengirim: user.alamat_pengirim,
+                                        nama_penerima: user.nama_penerima,
+                                        no_telp: user.no_telp,
+                                        id_paket: user.id_paket,
+                                    });
+                                    window.location.href = `edit_paket_datang.html?${queryParams.toString()}`;
+                                    } else {
+                                        throw new Error(`Failed to edit Penerima Paket ${user.nama_penerima}`);
+                                    }
+                                })
+                                .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to edit Penerima Paket');
+                                });
+                            });
+
+                                // Create Delete button
+                                const deleteButton = document.createElement('button');
+                                deleteButton.className = 'btn btn-danger';
+                                deleteButton.textContent = 'Delete';
+                                deleteButton.addEventListener('click', () => {
+                                    event.preventDefault();
+                                    const userId = `${user.id_paket}`; // Replace with the actual user ID you want to delete
+                                    // const url = `http://localhost:${porturl}/penerima_paket_delete/${user.id_paket}`;
+                                    
+                                    $('#confirmDeleteModal').modal('show');
+                                    document.getElementById('confirmDeleteButton').onclick = function(){
+                                        fetch(`${url}/penerima_paket_delete/${user.id_paket}`, {
+                                            method: 'DELETE',
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.code === 200) {
+                                                document.getElementById('modalMessage').innerText = `Penerimaan Paket ${user.nama_penerima} deleted successfully`;
+                                                $('#confirmDeleteModal').modal('hide');
+                                                $('#myModal').modal('show');
+                                                $('#myModal').on('hidden.bs.modal', function () {
+                                                    window.location.reload();
+                                                });
+                                            } else {
+                                                throw new Error(`Failed to delete user ${user.nama_penerima}`);
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            document.getElementById('modalMessage').innerText = 'Failed to delete user';
+                                            $('#confirmDeleteModal').modal('hide');
+                                            $('#myModal').modal('show');
+                                        });
+                                    };
+
+                                    document.getElementById('cancelDeleteButton').addEventListener('click', function(event) {
+                                        window.location.href = `tabel_datang.html`;
+
+                                    });
+                                });
+
+                                document.getElementById('modalCloseButton').addEventListener('click', function() {
+                                    $('#myModal').modal('hide');
+                                    window.location.reload();
+                                });
+
+                                // Append buttons to aksiTd
+                                aksiTd.appendChild(editButton);
+                                aksiTd.appendChild(deleteButton);
+                                tr.appendChild(aksiTd);
+
+                                tbody.appendChild(tr);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+                        }
+                    })
+                })
+            </script>
+           <!-- logout -->
+           <script>
+            function showLogoutModalt() {
+            const logoutModal = new bootstrap.Modal(document.getElementById("logoutModal"));
+            logoutModal.show();
+            }
+            function logout() {
+              event.preventDefault();
+              fetch(`${url}/logout`, {
+                credentials: "include",
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.code == "200") {
+                    window.location.href = "index.html";
+                  } else {
+                    console.log("Gagal Logout");
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error fetching data:", error);
+                });
+            }
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                logout();
+            });
+          </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
+</html>

@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Edit Pengambilan Paket - Packetin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/config.js"></script>
+    <script src="js/server.js"></script>
+    <a href="tabel_ambil.html"></a>
+  </head>
+  <body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+      <!-- Navbar Brand-->
+      <a class="navbar-brand ps-3" href="home.html">Packetin</a>
+      <!-- Sidebar Toggle-->
+      <button
+        class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+        id="sidebarToggle"
+        href="#!"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+    </nav>
+    <div id="layoutSidenav">
+      <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <div class="sb-sidenav-menu">
+            <div class="nav">
+              <a id="dashboard" class="nav-link" href="home.html">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                Dashboard
+            </a>
+            <a id="tabel_datang" class="nav-link" href="tabel_datang.html">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                Kedatangan Paket
+            </a>
+            <a id="tabel_ambil" class="nav-link" href="tabel_ambil.html">
+            <div class="sb-nav-link-icon"><i class="fa-solid fa-dolly"></i></div>
+                Pengambilan Paket
+            </a>
+            <a id="laporan" class="nav-link" href="laporan.html">
+              <div class="sb-nav-link-icon">
+              <i class="fa-regular fa-clipboard"></i>
+              </div>
+              Laporan Paket
+          </a>
+            <a id="tabel_users" class="nav-link" href="tabel_users.html">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                Tabel Pengguna
+            </a>
+            <a class="nav-link collapsed" href="#" onclick="showLogoutModal()">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+                Logout
+            </a>
+        </div>
+    </div>
+    <div class="sb-sidenav-footer">
+        <div class="small">Login Sebagai:</div>
+        <div id="usernameDisplay"></div>
+    </div>
+        </nav>
+      </div>
+      <div id="layoutSidenav_content">
+        <main>
+          <div class="container-fluid px-4">
+            <h1 class="mt-4">Konfirmasi Pengambilan Paket</h1>
+            <div class="card mb-4"></div>
+          </div>
+          <form id="editPengambilan" class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-7">
+                <!-- <input
+                  type="hidden"
+                  id="nama_ekspedisi"
+                  class="form-control mb-3"
+                  required/> -->
+                <b><label for="nama_barang">Nama Barang:</label></b>
+                <input
+                  type="text"
+                  id="nama_barang"
+                  placeholder="Nama Barang"
+                  class="form-control mb-3"
+                  required
+                />
+                <b><label for="nama_pengirim">Nama Pengirim:</label></b>
+                <input
+                  type="text"
+                  id="nama_pengirim"
+                  placeholder="Nama Pengirim"
+                  class="form-control mb-3"
+                  required
+                />
+                <input
+                  type="hidden"
+                  id="alamat_pengirim"
+                  class="form-control mb-3"
+                  required
+                />
+                <b><label for="nama_penerima">Nama Penerima:</label></b>
+                <input
+                  type="text"
+                  id="nama_penerima"
+                  placeholder="Nama Penerima"
+                  class="form-control mb-3"
+                  required
+                />
+                <b><label for="nama_pengambil">Nama Pengambil:</label></b>
+                <input
+                  type="text"
+                  id="nama_pengambil"
+                  placeholder="Nama Pengambil"
+                  class="form-control mb-3"
+                  required
+                />
+                <b><label for="status">Status:</label></b>
+                <select
+                  id="status"
+                  placeholder="Status"
+                  class="form-control mb-3"
+                  required
+                >
+                <option value="Pilih Status" disabled>Pilih Status</option>
+                <option value="Sudah Diterima" selected>Sudah Diterima</option>
+                <option value="Belum Diterima">Belum Diterima</option>
+                </select>
+                <input type="hidden" id="nama_ekspedisi" required />
+                <input type="hidden" id="no_telp" required />
+                <b
+                  ><label for="tanggal_diambil"
+                    >Tanggal Pengambilan Paket:</label
+                  ></b
+                >
+                <input
+                  class="form-control mb-3"
+                  type="datetime-local"
+                  class="form-control"
+                  id="tanggal_diambil"
+                />
+                <input type="hidden" id="id_paket" required />
+                <button
+                  type="submit"
+                  class="btn btn-success mb-3"
+                  id="paket_ambil"
+                  required
+                >
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger mb-3"
+                  id="cancelEdit_ambil"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+    <!-- Modal Edit paket sukses -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="inputUsersModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="inputUsersModalLabel">Notifikasi</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">Konfirmasi Status Pengambilan Paket Berhasil</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="closeInput"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Gagal Add-->
+    <div
+      class="modal fade"
+      id="gagalModal"
+      tabindex="-1"
+      aria-labelledby="gagalModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="gagalModalLabel">Peringatan!</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Terjadi Kesalahan Dalam Konfirmasi Status Pengambilan Paket
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal logout -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Notifikasi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          Apakah Anda yakin ingin Logout?
+          </div>
+          <div class="modal-footer">
+          <button type="button" id="closeInput" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+          </div>
+      </div>
+      </div>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <!-- Ambil value tabel, post data edit -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+                fetch(`${url}/session-data`,{
+                credentials:"include",
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    if (!data.username) {
+                    window.location.href = "index.html";
+                    }else{
+                      // hide menu untuk satpam
+                    const username = data.username;
+                    fetch(
+                      `${url}/get_level?username=${username}`
+                    )
+                      .then((response) => response.json())
+                      .then((levelData) => {
+                        console.log("Level data received:", levelData);
+                        const level = levelData.level;
+
+                        if (level === "Satpam") {
+                          // Sembunyikan semua menu
+                          console.log("Hiding elements for Satpam");
+                              const tabel_users = document.getElementById("tabel_users");
+                              {
+                                  tabel_users.style.display = "none";
+                              }
+                          }
+                      });
+                      // Tampilkan nama pengguna di elemen dengan id 'usernameDisplay'
+                    document.getElementById('usernameDisplay').innerText = data.username;
+
+                  function getQueryParams() {
+                const params = new URLSearchParams(window.location.search);
+                return {
+                  // nama_ekspedisi: params.get("nama_ekspedisi"),
+                  nama_barang: params.get("nama_barang"),
+                  nama_pengirim: params.get("nama_pengirim"),
+                  alamat_pengirim: params.get("alamat_pengirim"),
+                  nama_penerima: params.get("nama_penerima"),
+                  nama_pengambil: params.get("nama_pengambil"),
+                  status: params.get("status"),
+                  no_telp: params.get("no_telp"),
+                  tanggal_diambil: params.get("tanggal_diambil"),
+                  id_paket: params.get("id_paket"),
+                };
+              }
+              const user = getQueryParams();
+              // document.getElementById("nama_ekspedisi").value = user.nama_ekspedisi;
+              document.getElementById("nama_barang").value = user.nama_barang;
+              document.getElementById("nama_pengirim").value = user.nama_pengirim;
+              document.getElementById("alamat_pengirim").value = user.alamat_pengirim;
+              document.getElementById("nama_penerima").value = user.nama_penerima;
+              document.getElementById("nama_pengambil").value = user.nama_pengambil;
+              // Automatically select "Sudah Diterima", database still "belum diterima" if user not submitted yet
+              const statusSelect = document.getElementById("status");
+              statusSelect.value = "Sudah Diterima";
+              document.getElementById("no_telp").value = user.no_telp;
+              document.getElementById("tanggal_diambil").value = moment(user.tanggal_diambil).format("YYYY-MM-DDThh:mm");
+              document.getElementById("id_paket").value = user.id_paket;
+
+              // console.log("1", user.nama_ekspedisi);
+              console.log("1", user.nama_barang);
+              console.log("2", user.nama_pengirim);
+              console.log("3", user.alamat_pengirim);
+              console.log("4", user.nama_penerima);
+              console.log("5", user.nama_pengambil);
+              console.log("6", user.status);
+              console.log("7", user.no_telp);
+              console.log("8", user.tanggal_diambil);
+              console.log("9", user.id_paket);
+
+              // ketika ubah status belum diterima, nama pengambil otomatis kosong
+              const status = document.getElementById("status");
+              const nama_pengambil = document.getElementById("nama_pengambil");
+
+              status.addEventListener("change", function () {
+                if (status.value === "Belum Diterima") {
+                  nama_pengambil.value = "";
+                  nama_pengambil.setAttribute("disabled", "disabled");
+                } else {
+                  nama_pengambil.removeAttribute("disabled");
+                }
+              });
+
+              // document.addEventListener("DOMContentLoaded", function () {
+                const addDatangForm = document.getElementById("editPengambilan");
+
+                addDatangForm.addEventListener("submit", function (event) {
+                  event.preventDefault();
+
+                  // const nama_ekspedisi = document.getElementById("nama_ekspedisi");
+                  const nama_barang = document.getElementById("nama_barang");
+                  const nama_pengirim = document.getElementById("nama_pengirim");
+                  const alamat_pengirim = document.getElementById("alamat_pengirim");
+                  const nama_penerima = document.getElementById("nama_penerima");
+                  const nama_pengambil = document.getElementById("nama_pengambil");
+                  const status = document.getElementById("status");
+                  const no_telp = document.getElementById("no_telp");
+                  const tanggal_diambil = document.getElementById("tanggal_diambil");
+                  const id_paket = document.getElementById("id_paket");
+
+                  // const inputValuenama_ekspedisi = nama_ekspedisi.value;
+                  const inputValuenama_barang = nama_barang.value;
+                  const inputValuenama_pengirim = nama_pengirim.value;
+                  const inputValuealamat_pengirim = alamat_pengirim.value;
+                  const inputValuenama_penerima = nama_penerima.value;
+                  const inputValuenama_pengambil = nama_pengambil.value;
+                  const inputValuestatus = status.value;
+                  const inputValueno_telp = no_telp.value;
+                  const inputValuetanggal_diambil = tanggal_diambil.value;
+                  const inputValueid_paket = id_paket.value;
+                  
+                  // console.log("11", inputValuenama_ekspedisi);
+                  console.log("11", inputValuenama_barang);
+                  console.log("22", inputValuenama_pengirim);
+                  console.log("33", inputValuealamat_pengirim);
+                  console.log("44", inputValuenama_penerima);
+                  console.log("55", inputValuenama_pengambil);
+                  console.log("66", inputValuestatus);
+                  console.log("77", inputValueno_telp);
+                  console.log("88", inputValuetanggal_diambil);
+                  console.log("99", inputValueid_paket);
+
+                  // const url = `${url}/pengambilan_paket_put`;
+
+                  fetch(`${url}/pengambilan_paket_put`, {
+                    method: "PUT",
+                    body: JSON.stringify({
+                      // nama_ekspedisi: inputValuenama_ekspedisi,
+                      nama_barang: inputValuenama_barang,
+                      nama_pengirim: inputValuenama_pengirim,
+                      alamat_pengirim: inputValuealamat_pengirim,
+                      nama_penerima: inputValuenama_penerima,
+                      nama_pengambil: inputValuenama_pengambil,
+                      status: inputValuestatus,
+                      no_telp: inputValueno_telp,
+                      tanggal_diambil: inputValuetanggal_diambil,
+                      id_paket: inputValueid_paket,
+                    }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                    .then((response) => {
+                      if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+                      return response.json();
+                    })
+                    .then((data) => {
+                      if (data.code === "200") {
+                        const editModal = new bootstrap.Modal(
+                          document.getElementById("editModal")
+                        );
+                        editModal.show();
+                      const xhr = new XMLHttpRequest();
+                          xhr.open("GET", `${urlwa}/send_wa?tujuan=${inputValueno_telp}&pesan=Halo ${inputValuenama_penerima}, Permisi paket ${inputValuenama_barang} sudah diambil oleh ${inputValuenama_pengambil}. Terima Kasih!`, true);
+                          xhr.onreadystatechange = function () {
+                              if (xhr.readyState == 4) {
+                                  if (xhr.status == 200) {
+                                      console.log(JSON.parse(xhr.responseText));
+                                  } else {
+                                      console.error('Error sending WhatsApp message:', xhr.status);
+                                  }
+                              }
+                          };
+                          xhr.send();
+                      }
+                      else {
+                        const gagalModal = new bootstrap.Modal(
+                          document.getElementById("gagalModal")
+                        );
+                        gagalModal.show();
+                      }
+                    })
+                    .catch((error) => {
+                      console.error("Error Konfirmasi Pengambilan Paket:", error);
+                      alert("Failed Konfirmasi Status Pengambilan Paket");
+                        });
+                    });
+                    document
+                      .getElementById("closeInput")
+                      .addEventListener("click", function (event) {
+                        window.location.href = `tabel_ambil.html`;
+                      });
+                  // });
+                    document
+                    .getElementById("cancelEdit_ambil")
+                    .addEventListener("click", function (event) {
+                      window.location.href = `tabel_ambil.html`;
+                    });
+                  }
+                })
+                  .catch(error => {
+                    console.error('Error fetching session data:', error);
+                  });
+              })
+    </script>
+    <!-- logout -->
+    <script>
+            function showLogoutModal() {
+                var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+                logoutModal.show();
+            }
+            function logout() {
+                event.preventDefault();
+                fetch(`${url}/logout`,{
+                credentials:"include",
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    if (data.code == "200") {
+                        window.location.href = "index.html";
+                    }else{
+                    console.log("Gagal Logout");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+            }
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                    logout();
+            });
+  </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/scripts.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/datatables-simple-demo.js"></script>
+    <script src="js/server.js"></script>
+  </body>
+</html>

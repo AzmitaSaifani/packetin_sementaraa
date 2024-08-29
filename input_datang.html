@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Input Kedatangan Paket - Packetin</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="js/www.js"></script>
+        <script src="js/server.js"></script>
+        <script src="js/config.js"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="home.html">Packetin</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            </form>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a id="dashboard" class="nav-link" href="home.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                                Dashboard
+                            </a>
+                            <a id="tabel_datang" class="nav-link" href="tabel_datang.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                                Kedatangan Paket
+                            </a>
+                            <a id="tabel_ambil" class="nav-link" href="tabel_ambil.html">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-dolly"></i></div>
+                                Pengambilan Paket
+                            </a>
+                            <a id="laporan" class="nav-link" href="laporan.html">
+                                <div class="sb-nav-link-icon">
+                                <i class="fa-regular fa-clipboard"></i>
+                                </div>
+                                Laporan Paket
+                            </a>
+                            <a id="tabel_users" class="nav-link" href="tabel_users.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                                Tabel Pengguna
+                            </a>
+                            <a class="nav-link collapsed" href="#" onclick="showLogoutModal()">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+                                Logout
+                            </a>
+                            </div>
+                        </div>
+                        <div class="sb-sidenav-footer">
+                            <div class="small">Login Sebagai:</div>
+                            <div id="usernameDisplay"></div>
+                        </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Input Data Kedatangan Paket</h1>
+                        <div class="card mb-4">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <form id="form_input_paket_datang" class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7">
+                                    <b><label for="nama_ekspedisi">Nama Ekspedisi:</label></b>
+                                    <input type="text" id="nama_ekspedisi" placeholder="Nama Ekspedisi" class="form-control mb-3" required>
+                                    <b><label for="nama_barang">Nama Barang:</label></b>
+                                    <input type="text" id="nama_barang" placeholder="Nama Barang" class="form-control mb-3">
+                                    <b><label for="nama_pengirim">Nama Pengirim:</label></b>
+                                    <input type="text" id="nama_pengirim"" placeholder="Nama Pengirim/Nama Toko" class="form-control mb-3">
+                                    <b><label for="alamat_pengirim">Alamat Pengirim:</label></b>
+                                    <input type="text" id="alamat_pengirim" placeholder="Contoh: Jakarta Pusat" class="form-control mb-3" required>
+                                    <b><label for="nama_penerima">Nama Penerima:</label></b>
+                                    <input type="text" id="nama_penerima" placeholder="Nama Penerima" class="form-control mb-3" required>
+                                    <b><label for="no_telp">No Telp:</label></b>
+                                    <input type="tel" id="no_telp" placeholder="No Telp" class="form-control mb-3" required pattern="[0-9]{10,15}" minlength="10" maxlength="15">
+                                    <b><label for="tanggal_kedatangan">Tanggal Kedatangan Paket:</label></b>
+                                    <input class="form-control mb-3" type="datetime-local" class="form-control" id="tanggal_kedatangan">
+                                    <button type="submit" class="btn btn-outline-primary mb-3" id="paket_datang" required>Submit</button>
+                                    <button type="button" class="btn btn-danger mb-3" id="cancel_inputDatang" required>Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!-- Modal Sukses Tambah Paket -->
+        <div class="modal fade" id="inputpaketModal" tabindex="-1" aria-labelledby="inputpaketModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="inputpaketModalLabel">Notifikasi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                Input Data Kedatangan Paket Berhasil
+                </div>
+                <div class="modal-footer">
+                <button type="button" id="close_inputDatang" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Modal Gagal Tambah Paket -->
+        <div class="modal fade" id="gagalinputPaket" tabindex="-1" aria-labelledby="gagalinputPaketLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="gagalinputPaketLabel">Notifikasi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Terjadi Kesalahan Input Data Kedatangan Paket
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- modal logout -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Notifikasi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                Apakah Anda yakin ingin Logout?
+                </div>
+                <div class="modal-footer">
+                <button type="button" id="closeInput" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Masukin data baru ke tabel dan kirim WA -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                fetch(`${url}/session-data`,{
+                credentials:"include",
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    if (!data.username){
+                    window.location.href = "index.html";
+                    }else {
+                        // hide menu untuk satpam
+                    const username = data.username;
+                    fetch(
+                        `${url}/get_level?username=${username}`
+                    )
+                        .then((response) => response.json())
+                        .then((levelData) => {
+                        console.log("Level data received:", levelData);
+                        const level = levelData.level;
+
+                        if (level === "Satpam") {
+                            // Sembunyikan semua menu
+                            console.log("Hiding elements for Satpam");
+                                const tabel_users = document.getElementById("tabel_users");
+                                {
+                                    tabel_users.style.display = "none";
+                                }
+                            }
+                        });
+                        // Tampilkan nama pengguna di elemen dengan id 'usernameDisplay'
+                        document.getElementById('usernameDisplay').innerText = data.username;
+                            // document.addEventListener('DOMContentLoaded', function () {
+                        const addDatangForm = document.getElementById('form_input_paket_datang');
+                        
+                        addDatangForm.addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        const nama_ekspedisi = document.getElementById('nama_ekspedisi');
+                        const nama_barang = document.getElementById('nama_barang');
+                        const nama_pengirim = document.getElementById('nama_pengirim');
+                        const alamat_pengirim = document.getElementById('alamat_pengirim');
+                        const nama_penerima = document.getElementById('nama_penerima');
+                        const no_telp = document.getElementById('no_telp');
+                        const tanggal_kedatangan = document.getElementById('tanggal_kedatangan');
+
+                        const inputValuenama_ekspedisi = nama_ekspedisi.value;
+                        const inputValuenama_barang = nama_barang.value;
+                        const inputValuenama_pengirim = nama_pengirim.value;
+                        const inputValuealamat_pengirim = alamat_pengirim.value;
+                        const inputValuenama_penerima= nama_penerima.value;
+                        const inputValueno_telp = no_telp.value;
+                        const inputValuetanggal_kedatangan = tanggal_kedatangan.value;
+                        
+                        console.log("1",inputValuenama_ekspedisi);
+                        console.log("2",inputValuenama_barang);
+                        console.log("3",inputValuenama_pengirim);
+                        console.log("4",inputValuealamat_pengirim);
+                        console.log("5",inputValuenama_penerima);
+                        console.log("6",inputValueno_telp);
+                        console.log("7",inputValuetanggal_kedatangan);
+
+                        // const url = `${url}/penerima_paket_insert`;
+                        const url_wa= `${urlwa}/api?tujuan=085600032739&pesan=testing`;
+
+                        fetch(`${url}/penerima_paket_insert`, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                nama_ekspedisi: inputValuenama_ekspedisi,
+                                nama_barang: inputValuenama_barang,
+                                nama_pengirim: inputValuenama_pengirim,
+                                alamat_pengirim: inputValuealamat_pengirim,
+                                nama_penerima: inputValuenama_penerima,
+                                no_telp: inputValueno_telp,
+                                tanggal_kedatangan: inputValuetanggal_kedatangan,
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.code === "200") {
+                                const inputpaketModal = new bootstrap.Modal(document.getElementById('inputpaketModal'));
+                                inputpaketModal.show();
+                            } else {
+                                const gagalinputPaket = new bootstrap.Modal(document.getElementById('gagalinputPaket'));
+                                gagalinputPaket.show();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error adding Penerimaan Paket:', error);
+                            alert('Failed to add Penerimaan Paket');
+                        });
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", `${urlwa}/api?tujuan=${inputValueno_telp}&pesan=Halo ${inputValuenama_penerima}, paket ${inputValuenama_barang} dari ${inputValuenama_pengirim} sudah datang. Yuk, segera ambil di Pos Satpam Margono yaa. Terima Kasih!`, true);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4 && xhr.status == 200){
+                                console.log(JSON.parse(xhr.responseText));
+                        }else if (xhr.readyState == 4) {
+                                console.error('Error sending WhatsApp message:', xhr.status);
+                            }
+                        };
+                        xhr.send();
+                        });
+                        document.getElementById('cancel_inputDatang').addEventListener('click', function(event) {
+                        window.location.href = `tabel_datang.html`;
+                        });
+                        document.getElementById('close_inputDatang').addEventListener('click', function(event) {
+                        window.location.href = `tabel_datang.html`;
+                            });
+                            // });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching session data:', error);
+                    });
+                });
+        </script>
+        <!-- pre-fill a date-time input field with the current date and time when the page loads. -->
+        <script>
+        function getFormattedDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+        const today = new Date();
+        const formattedDate = getFormattedDate(today);
+        document.getElementById('tanggal_kedatangan').value = formattedDate;
+        </script>
+        <!-- logout -->
+        <script>
+            function showLogoutModal() {
+                var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+                logoutModal.show();
+            }
+            function logout() {
+                event.preventDefault();
+                fetch(`${url}/logout`,{
+                credentials:"include",
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    if (data.code == "200") {
+                        window.location.href = "index.html";
+                    }else{
+                    console.log("Gagal Logout");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+            }
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                    logout();
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
+</html>
